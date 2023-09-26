@@ -1,3 +1,4 @@
+from HumanDetection import HumanDetection, Tracker
 from flask import Flask, render_template, Response, Request, redirect,request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
@@ -16,7 +17,7 @@ app = Flask(__name__)
 app.app_context().push()
 
 # YOLO model configuration
-model = YOLO("best.pt")
+model = YOLO("model.pt")
 threshold = 0.5
 
 # COLOR CODES BGR
@@ -66,6 +67,10 @@ cap = cv.VideoCapture(0)
 
 # Frame reading and model processing
 def generate_frames():
+        # tracker = Tracker(0)
+
+        # frame = tracker()
+        
     while True:
         # read the cap frame
         success, frame = cap.read()
@@ -92,8 +97,8 @@ def generate_frames():
                 )
                 cv.rectangle(frame, (xmin, ymin), (xmax, ymax), green, 2)
             #writer.write(frame)
-            ret, buffer = cv.imencode(".jpg", frame)
-            frame = buffer.tobytes()
+        ret, buffer = cv.imencode(".jpg", frame)
+        frame = buffer.tobytes()
 
         yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 # INITIATING LOGIN MANAGER

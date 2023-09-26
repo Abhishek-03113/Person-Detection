@@ -152,13 +152,15 @@ class Tracker():
                 points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
                 cv.polylines(annotated_frame, [points], isClosed=False, color=(230, 230, 230), thickness=10)
 
-            cv.imshow("tracker", annotated_frame)
+            #cv.imshow("tracker", annotated_frame)
 
-            if cv.waitKey(10) & 0xff == ord('q'):
-                break
+            return annotated_frame
 
-        cap.release()
-        cv.destroyAllWindows()
+        #     if cv.waitKey(10) & 0xff == ord('q'):
+        #         break
+
+        # cap.release()
+        # cv.destroyAllWindows()
 
 tracker = Tracker(capture_index=0)
 tracker()
