@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{url_for('static',filename = 'style.css')}}"
-    />
-  </head>
-  <body>
-    <div class="flex-container">
-      <div class="flex-items" id="item1">
-        <div id="header">
-          <img src="/static/human.webp" alt="human detection" />
-          <p>Alert</p>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'style.css')}}">
+</head>
+<body>
+<header>
+    <h1>S.T.A.R.S.</h1>
+    <abbr>Surveillance Tracking and Anomaly Recognition System</abbr>
+</header>
+<div class="container">
+    <nav class="flex-item1">
+        <div class="child-item">
+            <div><img src="/static/human.webp" alt="human detection"/></div>
+            <div class="button"><a href="">Aquire</a></div>
+            <div class="button"><a href="">Track</a></div>
+            <div class="button"><a href="">Lock</a></div>
+            <!-- <div class="button"><a href="">b1</a></div> -->
         </div>
-        <a href="" class="buttons">Aquire</a><a href="" class="buttons">Track</a
-        ><a href="" class="buttons">Lock</a>
-      </div>
-      <div class="flex-items" id="item2">
-        <img src="{{ url_for('stream') }}" width="100%" height="100%" />
-      </div>
+    </nav>
+    <div class="flex-item2">
+        <!-- <div > -->
+        <img src="{{ url_for('stream') }}" alt="video" id="heroImage"/>
+        <!-- </div> -->
     </div>
-  </body>
+</div>
+</body>
 </html>
