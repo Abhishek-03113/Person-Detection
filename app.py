@@ -61,7 +61,7 @@ def create_video_writer(video_cap, output_filename):
 
 
 # Camera and writeup setup and initialization
-cap = cv.VideoCapture(0)
+#cap = cv.VideoCapture(0)
 #writer = create_video_writer(cap, "output.mp4")
 
 
@@ -71,7 +71,8 @@ def generate_frames():
 
         # frame = tracker()
         
-    while True:
+   
+        '''
         # read the cap frame
         success, frame = cap.read()
         if not success:
@@ -98,9 +99,21 @@ def generate_frames():
                 cv.rectangle(frame, (xmin, ymin), (xmax, ymax), green, 2)
             #writer.write(frame)
         ret, buffer = cv.imencode(".jpg", frame)
-        frame = buffer.tobytes()
+        frame = buffer.tobytes()'''
+        human_detector = HumanDetection(capture_index=0)
+        tracker = Tracker(capture_index=0)
+        
+        while True:
+           
+            frame = human_detector()
+            #frame = tracker()
+       
+            buffer = cv.imencode(".jpg", frame)
+            frame = buffer.tobytes()
+            
+        
+            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 
-        yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
 # INITIATING LOGIN MANAGER
 @login_manager.user_loader
 def get(id):

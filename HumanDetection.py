@@ -97,6 +97,7 @@ class HumanDetection:
                 (0, 255, 0),
                 2,
             )
+            #return frame
 
             cv.imshow("Human Detection", frame)
 
@@ -162,5 +163,5 @@ class Tracker():
         # cap.release()
         # cv.destroyAllWindows()
 
-tracker = Tracker(capture_index=0)
+tracker = HumanDetection(capture_index=0)
 tracker()
