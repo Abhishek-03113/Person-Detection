@@ -1,5 +1,4 @@
-from HumanDetection import HumanDetection, Tracker
-from flask import Flask, render_template, Response, Request, redirect,request
+from flask import Flask, render_template, Response, Request, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager,
@@ -17,7 +16,7 @@ app = Flask(__name__)
 app.app_context().push()
 
 # YOLO model configuration
-model = YOLO("model.pt")
+model = YOLO("PersonsDetection.pt")
 threshold = 0.5
 
 # COLOR CODES BGR
@@ -35,7 +34,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-# creating user databse
+# creating user databsezz
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(200))
@@ -61,18 +60,15 @@ def create_video_writer(video_cap, output_filename):
 
 
 # Camera and writeup setup and initialization
-#cap = cv.VideoCapture(0)
-#writer = create_video_writer(cap, "output.mp4")
+cap = cv.VideoCapture(0)
+
+
+# writer = create_video_writer(cap, "output.mp4")
 
 
 # Frame reading and model processing
 def generate_frames():
-        # tracker = Tracker(0)
-
-        # frame = tracker()
-        
-   
-        '''
+    while True:
         # read the cap frame
         success, frame = cap.read()
         if not success:
@@ -97,22 +93,13 @@ def generate_frames():
                     int(data[3]),
                 )
                 cv.rectangle(frame, (xmin, ymin), (xmax, ymax), green, 2)
-            #writer.write(frame)
-        ret, buffer = cv.imencode(".jpg", frame)
-        frame = buffer.tobytes()'''
-        human_detector = HumanDetection(capture_index=0)
-        tracker = Tracker(capture_index=0)
-        
-        while True:
-           
-            frame = human_detector()
-            #frame = tracker()
-       
-            buffer = cv.imencode(".jpg", frame)
+            # writer.write(frame)
+            ret, buffer = cv.imencode(".jpg", frame)
             frame = buffer.tobytes()
-            
-        
-            yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+            frame = buffer.tobytes()
+
+        yield (b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n")
+
 
 # INITIATING LOGIN MANAGER
 @login_manager.user_loader
@@ -178,4 +165,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=False)
+    app.run(host="0.0.0.0", debug=False)

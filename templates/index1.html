@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static',filename = 'style.css')}}"
+    />
+  </head>
+  <body>
+    <div class="flex-container">
+      <div class="flex-items" id="item1">
+        <div id="header">
+          <img src="/static/human.webp" alt="human detection" />
+          <p>Alert</p>
+        <!-- </div>
+        <a href="" class="buttons">Aquire</a><a href="" class="buttons">Track</a
+        ><a href="" class="buttons">Lock</a>
+      </div> -->
+      <div class="flex-items" id="item2">
+        <img src="{{ url_for('stream') }}" width="100%" height="100%" />
+      </div>
+    </div>
+  </body>
+</html>

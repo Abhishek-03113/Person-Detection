@@ -26,7 +26,7 @@ class HumanDetection:
 
     @staticmethod
     def load_model():
-        model = YOLO("model.pt")
+        model = YOLO("PersonsDetection.pt")
         model.fuse()
 
         return model
@@ -59,7 +59,7 @@ class HumanDetection:
             confidence=results[0].boxes.conf.cpu().numpy(),
             class_id=results[0].boxes.cls.cpu().numpy().astype(int),
         )
-        print(detections)
+        #print(detections)
         # Format custom labels
         self.labels = [
             f"{self.CLASS_NAMES_DICT[class_id]} {confidence:0.2f}"
@@ -97,7 +97,6 @@ class HumanDetection:
                 (0, 255, 0),
                 2,
             )
-            #return frame
 
             cv.imshow("Human Detection", frame)
 
@@ -122,7 +121,7 @@ class Tracker():
         )
 
     def load_model(self):
-        model = YOLO("model.pt")
+        model = YOLO("PersonsDetection.pt")
         model.fuse()
 
         return model
@@ -153,15 +152,15 @@ class Tracker():
                 points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
                 cv.polylines(annotated_frame, [points], isClosed=False, color=(230, 230, 230), thickness=10)
 
-            #cv.imshow("tracker", annotated_frame)
+            cv.imshow("tracker", annotated_frame)
 
-            return annotated_frame
+            if cv.waitKey(10) & 0xff == ord('q'):
+                break
 
-        #     if cv.waitKey(10) & 0xff == ord('q'):
-        #         break
+        cap.release()
+        cv.destroyAllWindows()
 
-        # cap.release()
-        # cv.destroyAllWindows()
 
-tracker = HumanDetection(capture_index=0)
-tracker()
+test = Tracker(0)
+test()
+
